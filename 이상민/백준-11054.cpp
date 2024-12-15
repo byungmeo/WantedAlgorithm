@@ -16,7 +16,7 @@ int main() {
 
     std::cin >> N;
 
-    for (int i = 1; i <= N; i++)
+    for (int i = 0; i < N; i++)
         std::cin >> A[i];
 
     std::fill_n(DPU, 1002, 1);
@@ -24,28 +24,25 @@ int main() {
 
     int Result = 1;
 
-    for (int i = 1;i < N; i++) {
+    for (int i = 1; i < N; i++) {
         // 기본적으로 수열은 무조건 1 이상이다.
         int ResultUp = 1;
         int ResultDown = 1;
 
-        for (int j = 0; j <= i; j++) {
+        for (int j = 0; j < i; j++) {
             // j가 i보다 더 크다는 경우는 즉 오르는 부분 수열 이라고 할 수 있다.
             if (A[i] > A[j]) {
                 ResultUp = max(ResultUp, DPU[j] + 1);
             }
-
-            // 감수 수열의 조건에 일치 한다.
-            if (A[N - i] > A[N - j]) {
-                ResultDown = max(ResultDown, DPD[N - j] + 1);
+            if (A[N - 1 - i] > A[N - 1 - j]) {
+                ResultDown = max(ResultDown, DPD[N - 1 - j] + 1);
             }
         }
-
         DPU[i] = ResultUp;
-        DPD[N - i] = ResultDown;
+        DPD[N - 1 - i] = ResultDown;
     }
 
-    for (int i = 1; i <= N; i++) {
+    for (int i = 0; i < N; i++) {
         Result = max(Result, DPU[i] + DPD[i]);
     }
 
