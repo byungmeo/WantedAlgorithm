@@ -1,0 +1,46 @@
+// g++ .\main.cpp -o {실행파일명}
+#include <iostream>
+#include <algorithm>
+#include <climits>
+#include <string>
+#include <string.h>
+#include <set>
+#include <map>
+#include <math.h>
+#include <unordered_set>
+#include <unordered_map>
+#include <vector>
+#include <tuple>
+
+typedef long long ll;
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(NULL);
+
+    int N;
+    cin >> N;
+    int A[N + 1];
+    int cnt1 = 0; // 단순 최적화를 위해 이미 1인 수들을 제외시키기 위해 카운팅
+    for(int i = 0; i < N; i++) {
+        cin >> A[i];
+        if(A[i] == 1) cnt1++;
+    }
+
+    // 핵심 아이디어 : 중앙 위치까지 1로 채우면 되고, 처음 오름차순 정렬 했을 때 중앙 위치 오른쪽 값들은 쳐다도 볼 필요가 없다.
+    int center = (N + 1) / 2; // 중앙 위치
+    int req = center - cnt1; // 중앙 위치까지 1로 채우는데 필요한 수 (이미 1인 수 제외)
+    if(req <= 0) { // 이미 중앙 위치까지 1로 가득 차서 연산 1번만 하면 0이 등장한다
+        cout << 1;
+        return 0;
+    }
+
+    sort(A, A + N);
+
+    ll ans = 1; // 중앙까지 1로 가득 채우고 난 뒤 중앙값을 0으로 만드는 연산 횟수 미리 첨가
+    for(int i = cnt1; i < cnt1 + req; i++) {
+        ans += log2(A[i]); // A[i]를 1로 만들기 위해 몇 번 2로 나눠야 할까?
+    }
+    cout << ans;
+}
