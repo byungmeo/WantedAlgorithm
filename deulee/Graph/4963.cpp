@@ -4,6 +4,7 @@
 int map[50][50];
 int cache[50][50];
 
+// DFS 그 자체
 int Solve(int x, int y) {
 	if (x < 0 || y < 0 || x >= 50 || y >= 50) {
 		return 0;
