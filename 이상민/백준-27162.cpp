@@ -72,7 +72,7 @@ int main() {
     }
 
     // 아래서부터는 현재 주사위의 갯수를 구하고 내려가는 것이 좋다.
-    int DiceCount[6] = {0,0,0,0,0, 0};
+    int DiceCount[7] = {0,0,0,0,0,0,0};
 
     for (int i : DiceInfo) {
         DiceCount[i] += 1;
@@ -80,23 +80,26 @@ int main() {
 
     // 풀하우스 같은 종류가 2개 이상 있는 경우
     if (YachtDiceType[7]) {
-        int a, b = 0;
+        int a = 0, b = 0;
         int Temp = 0;
-        for (int i = 5; i >= 0; i--) {
+        for (int i = 6; i >= 1; i--) {
             if (DiceCount[i] == 1) {
-                a = i + 1;
+                a = i;
             }
             if (DiceCount[i] == 2) {
-                b = i + 1;
+                b = i;
             }
             if (DiceCount[i] == 3) {
-                Temp = (i + 1) * 3 + 12;
+                Temp = i * 3 + (i == 6 ? 10 : 12);
             }
         }
-        if (a < b) {
-            Temp = a * 2 + b * 3;
-        } else if (a > b) {
-            Temp = a * 3 + b * 2;
+
+        if (a != 0 && b != 0) {
+            if (a < b) {
+                Temp = a * 2 + b * 3;
+            } else if (a > b) {
+                Temp = a * 3 + b * 2;
+            }
         }
 
         MaxValue = max(MaxValue, Temp);
@@ -113,9 +116,9 @@ int main() {
 
         int Temp = 0;
         if (CanDo) {
-            for (int i = 5; i >= 0; i--) {
-                if (DiceCount[i] >= 1) {
-                    Temp += (i + 1) * 4;
+            for (int i = 6; i >= 1; i--) {
+                if (DiceCount[i] >= 2) {
+                    Temp += i * 4;
                     break;
                 }
             }
@@ -126,7 +129,7 @@ int main() {
 
     for (int i = 5; i >= 0; i--) {
         if (YachtDiceType[i]) {
-            MaxValue = max(MaxValue, (i + 1) * (DiceCount[i] + 2));
+            MaxValue = max(MaxValue, (i + 1) * (DiceCount[i + 1] + 2));
         }
     }
 
